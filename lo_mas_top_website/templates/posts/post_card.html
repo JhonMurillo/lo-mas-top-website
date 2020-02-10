@@ -1,0 +1,49 @@
+<div class="col-sm-12 col-md-8 offset-md-2 mt-5 p-0 post-container">
+  <div class="media pt-3 pl-3 pb-1">
+    {% if post.source == 'YOUTUBE'%}
+    <iframe
+      width="560"
+      height="315"
+      src="https://www.youtube.com/embed/{{ post.link }}"
+      frameborder="0"
+      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+    >
+    </iframe>
+    {% elif post.source == 'FACEBOOK' %}
+    <!-- <iframe 
+        src="{{ post.link }}" 
+        width="560" 
+        height="432" 
+        style="border:none;overflow:hidden" 
+        scrolling="no" 
+        frameborder="0" 
+        allowTransparency="true" 
+        allow="encrypted-media" 
+        allowFullScreen="true">
+      </iframe> -->
+    <div
+      class="fb-video"
+      data-href="https://www.facebook.com/deimerelproduhumor/videos/187118445977600/"
+      data-width="500"
+      data-show-text="false"
+    >
+      <div class="fb-xfbml-parse-ignore">
+        <blockquote
+          cite="https://www.facebook.com/deimerelproduhumor/videos/187118445977600/"
+        >
+          <a href="https://www.facebook.com/deimerelproduhumor/videos/187118445977600/"
+            >How to Share With Just Friends</a
+          >
+          <p>How to share with just friends.</p>
+          Posted by <a href="https://www.facebook.com/facebook/">Facebook</a> on
+          Friday, December 5, 2014
+        </blockquote>
+      </div>
+    </div>
+    {% endif %}
+    <div class="media-body">
+      <p style="margin-top: 5px;"></p>
+    </div>
+  </div>
+</div>

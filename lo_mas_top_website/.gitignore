@@ -1,0 +1,9 @@
+/lo_mas_top_website/bin
+/lo_mas_top_website/include
+/lo_mas_top_website/lib
+/lo_mas_top_website/__pycache__
+.vscode
+/media
+migrations
+*.sqlite3
+__pycache__

@@ -1,0 +1,33 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg fixed-top" id="main-navbar">
+  <div class="container">
+    <a
+      title="Posts"
+      class="navbar-brand pr-5"
+      style="border-right: 1px solid #efefef;"
+      href="{% url 'posts:feed' %}"
+    >
+      <img
+        src="{% static 'img/instagram.png' %}"
+        height="45"
+        class="d-inline-block align-top"
+      />
+    </a>
+
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item nav-icon hidden">
+          <a href="" title="Create a new posts">
+            <!-- <i class="fas fa-plus"></i> -->
+          </a>
+        </li>
+
+        <li class="nav-item nav-icon hidden">
+          <a href="" title="Logout">
+            <!-- <i class="fas fa-sign-out-alt"></i> -->
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
