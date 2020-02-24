@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'background_task',
     #Local Apps
     'posts',
     'users',
@@ -159,12 +160,3 @@ LOGOUT_REDIRECT_URL = LOGIN_URL
 APPEND_SLASH=True
 
 django_heroku.settings(locals())
-
-
-# CELERY STUFF
-BROKER_URL = 'redis://localhost:6379'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379'
-CELERY_ACCEPT_CONTENT = ['application/json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TIMEZONE = 'Africa/Nairobi'

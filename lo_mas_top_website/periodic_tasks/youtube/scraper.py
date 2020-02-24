@@ -1,7 +1,5 @@
 import requests, sys, time, os
-from celery.task.schedules import crontab
-from celery.decorators import periodic_task
-
+from background_task import background
 # List of simple to collect features
 snippet_features = ["title",
                     "publishedAt",
@@ -135,7 +133,8 @@ def write_to_file(country_code, country_data):
         for row in country_data:
             file.write(f"{row}\n")
 
-@periodic_task(run_every=(crontab(minute='*/15')), name="get_data", ignore_result=True)
+# @periodic_task(run_every=(crontab(minute='*/15')), name="get_data", ignore_result=True)
+@background(schedule=60)
 def get_data():
     print('Starting scraper Youtube trends...')
     print('Getting data...')
