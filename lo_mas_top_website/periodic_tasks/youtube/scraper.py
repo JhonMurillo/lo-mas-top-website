@@ -1,6 +1,7 @@
 import requests, sys, time, os
 import inspect
 from background_task import background
+from posts.models import Post
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -128,6 +129,19 @@ def get_pages(country_code, api_key, next_page_token="&"):
     return country_data
 
 
+def save(country_data, country_code):
+    print(f"Saving {country_code} data to DB...")
+    for idx ,row in enumerate(country_data):
+        if(idx > 0):
+            post_data = row.split(',')
+            post = Post()
+            post.title = post_data[2].replace('"', '')
+            post.link    = post_data[0].replace('"', '')
+            post.description = post_data[1].replace('"', '')
+            post.source = 'YOUTUBE'
+
+            post.save()
+
 def write_to_file(country_code, country_data, output_dir):
     print(f"Writing {country_code} data to file...")
 
@@ -149,3 +163,4 @@ def get_data():
     for country_code in country_codes:
         country_data = [",".join(header)] + get_pages(country_code, api_key)
         write_to_file(country_code, country_data, output_dir)
+        save(country_data, country_code)

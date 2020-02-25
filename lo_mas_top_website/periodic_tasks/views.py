@@ -6,5 +6,5 @@ from .youtube.scraper import get_data
 def run_youtube_task(request):
     get_data()
     return JsonResponse({
-                'message': 'Task schedule...'
+                'message': 'Task Youtube schedule...'
             }, status=HTTPStatus.OK)
