@@ -8,10 +8,12 @@ class Post(models.Model):
     YOUTUBE='YOUTUBE'
     FACEBOOK='FACEBOOK'
     INSTAGRAM='INSTAGRAM'
+    OTROS='OTROS'
     SOURCES = (
       (YOUTUBE, 'Youtube'),
       (FACEBOOK, 'Facebook'),
       (INSTAGRAM, 'Instagram'),
+      (OTROS, 'Otros')
       )
 
     # user = models.ForeignKey(User,on_delete=models.CASCADE)
