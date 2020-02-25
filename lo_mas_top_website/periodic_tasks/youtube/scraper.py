@@ -1,5 +1,9 @@
 import requests, sys, time, os
+import inspect
 from background_task import background
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 # List of simple to collect features
 snippet_features = ["title",
                     "publishedAt",
@@ -19,6 +23,7 @@ header = ["video_id"] + ['video_link'] + snippet_features + ["trending_date",
 
 
 def setup(api_path, code_path):
+
     with open(api_path, 'r') as file:
         api_key = file.readline()
 
@@ -35,7 +40,7 @@ def prepare_feature(feature):
     return f'"{feature}"'
 
 
-def api_request(page_token, country_code):
+def api_request(page_token, country_code, api_key):
     # Builds the URL and requests the JSON from it
     request_url = f"https://www.googleapis.com/youtube/v3/videos?part=id,statistics,snippet{page_token}chart=mostPopular&regionCode={country_code}&maxResults=50&key={api_key}"
     print(request_url)
@@ -101,7 +106,7 @@ def get_videos(items):
     return lines
 
 
-def get_pages(country_code, next_page_token="&"):
+def get_pages(country_code, api_key, next_page_token="&"):
     country_data = []
 
     # Because the API uses page tokens (which are literally just the same function of numbers everywhere) it is much
@@ -109,7 +114,7 @@ def get_pages(country_code, next_page_token="&"):
     while next_page_token is not None:
         # A page of data i.e. a list of videos and all needed data
         print('Scrapping... ', next_page_token)
-        video_data_page = api_request(next_page_token, country_code)
+        video_data_page = api_request(next_page_token, country_code, api_key)
 
         # Get the next page token and build a string which can be injected into the request with it, unless it's None,
         # then let the whole thing be None so that the loop ends after this cycle
@@ -123,7 +128,7 @@ def get_pages(country_code, next_page_token="&"):
     return country_data
 
 
-def write_to_file(country_code, country_data):
+def write_to_file(country_code, country_data, output_dir):
     print(f"Writing {country_code} data to file...")
 
     if not os.path.exists(output_dir):
@@ -133,13 +138,14 @@ def write_to_file(country_code, country_data):
         for row in country_data:
             file.write(f"{row}\n")
 
-# @periodic_task(run_every=(crontab(minute='*/15')), name="get_data", ignore_result=True)
 @background(schedule=60)
 def get_data():
     print('Starting scraper Youtube trends...')
     print('Getting data...')
-    output_dir = 'output/'
-    api_key, country_codes = setup('api_key.txt', 'country_codes.txt')
+    output_dir = os.path.join(BASE_DIR, 'youtube', 'output/')
+    api_key_file = os.path.join(BASE_DIR, 'youtube', 'api_key.txt')
+    country_codes_file = os.path.join(BASE_DIR, 'youtube', 'country_codes.txt')
+    api_key, country_codes = setup(api_key_file , country_codes_file)
     for country_code in country_codes:
-        country_data = [",".join(header)] + get_pages(country_code)
-        write_to_file(country_code, country_data)
+        country_data = [",".join(header)] + get_pages(country_code, api_key)
+        write_to_file(country_code, country_data, output_dir)

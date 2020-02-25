@@ -28,6 +28,8 @@ urlpatterns = [
 
     path('', include(('posts.urls', 'posts'), namespace='posts')),
 
+    path('tasks/', include(('periodic_tasks.urls', 'tasks'), namespace='tasks')),
+
     # path('users/', include(('users.urls', 'users'), namespace='users')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
